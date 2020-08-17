@@ -1,0 +1,75 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.slider-container{
+    width: 100%;
+    margin: auto;
+    height: 500px;
+    overflow: hidden;
+    position:relative;
+    .slider{
+        display: flex;
+        width: auto;
+        height: 100%;
+        img {
+            width:100%;
+            object-fit: cover;
+            height:100%;
+        }
+    }
+}
+
+%nav-buttons{
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    opacity: 0;
+    border: none;
+    transition: .5s ease;
+    background: rgb(255,255,255);
+    font-size: 100px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        opacity: 0.5;
+        cursor: grab;
+    }
+    &:active{
+        outline: none;
+    }
+    &:focus{
+        outline: none;
+    }
+}
+
+.next{
+    left: 50%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100% );
+    @extend %nav-buttons;
+  }
+
+  .prev{
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    @extend %nav-buttons;
+  }
+
+
+.dots{
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    z-index: 99;
+    .dots>input[type="radio"]{
+        width: 20px;
+        height: 20px;
+        margin: 5px;
+    }
+}
+  
