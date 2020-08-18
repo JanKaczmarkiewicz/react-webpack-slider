@@ -90,7 +90,7 @@ const app = () => {
             onTouchStart={(e)=>{
                 setFirstX(e.changedTouches[0].screenX);
             }}
-            onTouchMove={(e)=>{
+            onTouchEnd={(e)=>{
                 setLastX(e.changedTouches[0].screenX);
                 swipe();
             }}
