@@ -34,9 +34,9 @@ const app = () => {
     
     useEffect(() => {
         handleWindow();  
-        // const timer = setInterval(nextSlide,4000);
+        const timer = setInterval(nextSlide,4000);
         return () => {
-            // clearInterval(timer);
+            clearInterval(timer);
         }
     });
 
