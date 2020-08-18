@@ -26,21 +26,18 @@
 
 %nav-buttons{
     position: absolute;
-    top: 0;
+    bottom: 0;
     width: 50%;
-    height: 100%;
-    opacity: 0;
     border: none;
     transition: .5s ease;
     background: rgb(255,255,255);
-    font-size: 100px;
+    font-size: 40px;
     font-weight: bold;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     &:hover{
-        opacity: 0.5;
         cursor: grab;
     }
     &:active{
@@ -68,10 +65,11 @@
     bottom: 5px;
     left: 10px;
     z-index: 99;
-    .dots>input[type="radio"]{
+    input[type="radio"]{
         width: 20px;
         height: 20px;
-        margin: 5px;
+        margin-left: 2.5px;
+        margin-right:2.5px;
     }
 }
   

@@ -19,7 +19,6 @@ const app = () => {
     const [sliderTransform,setsliderTransform] = useState(null);
     const [sliderTransition,setsliderTransition] = useState('transform 1s ease-in-out');
     const [count, setCount] = useState(1);
-    const buttons  = [];
     
 
     const handleWindow = () => {
@@ -32,9 +31,9 @@ const app = () => {
     
     useEffect(() => {
         handleWindow();  
-        const timer = setInterval(nextSlide,4000);
+        // const timer = setInterval(nextSlide,4000);
         return () => {
-            clearInterval(timer);
+            // clearInterval(timer);
         }
     });
 
@@ -70,16 +69,6 @@ const app = () => {
             setCount(1);
         }
     }
-
-    // for(let i =1, key =0; i < contentsLoop.length-1;i++,key++){
-    //     buttons.push(<input type="radio" id={i} onChange={() => setCount(i)} name="content" key={key} checked={
-    //         i === count ? true:false
-    //     }/>);
-    // }
-
-    
-
-
     return (
         <div className="slider-container">
             <div 
@@ -91,20 +80,23 @@ const app = () => {
                 transition:sliderTransition
                 }}>
                 {contentsLoop && contentsLoop.map( (content,key) => {
-                        return <div className="slide" key={key} style={{width:slideWidth}}>
+                        return <div 
+                        className="slide" 
+                        key={key} 
+                        style={{width:slideWidth}}>
                             {content}
                         </div>
                     })} 
             </div>
             <div className="prev" onTouchStart={prevSlide} onClick={prevSlide}>
-                P
+                Prev
             </div>
             <div className="next" onTouchStart={nextSlide} onClick={nextSlide}>
-                N
+                Next
             </div>
             <div className="dots">
             {contentsLoop && contentsLoop.map((content,key) => {
-                if(content){
+                if(key>0 && key < contentsLoop.length-1){
                 return <input 
                 type="radio" 
                 id={key} 
