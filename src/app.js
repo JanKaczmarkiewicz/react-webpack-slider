@@ -1,18 +1,121 @@
-import React from 'react'
-import Slider from './slider.js'
+import React, {useState,useEffect} from 'react'
 import './app.scss'
 
 const app = () => {
-    const images = ['1.jpg','2.jpg','3.jpg','4.jpg'];
-    const firstImage = images[0];
-    const lastImage = images[images.length-1];
-    const imagesLoop = [lastImage,...images,firstImage];
+    const contents = [
+        <img src={require(`./images/1.jpg`)} />,
+        <h2 style={{textAlign:'center'}}> This is Text contnet :) </h2>,
+        <img src={require(`./images/2.jpg`)} />,
+        <img src={require(`./images/3.jpg`)} />,
+        <h2> This one also text element </h2>,
+        <img src={require(`./images/4.jpg`)} />
+    ];
+    const firstContent = contents[0];
+    const lastContent = contents[contents.length-1];
+    const contentsLoop = [lastContent,...contents,firstContent];
+
+    const [sliderWidth,setSliderWidth] = useState(null);
+    const [slideWidth,setSlideWidth] = useState(null);
+    const [sliderTransform,setsliderTransform] = useState(null);
+    const [sliderTransition,setsliderTransition] = useState('transform 1s ease-in-out');
+    const [count, setCount] = useState(1);
+    const buttons  = [];
+    
+
+    const handleWindow = () => {
+        setSliderWidth(window.innerWidth * contentsLoop.length);
+        setSlideWidth(window.innerWidth);
+        setsliderTransform('translateX('+(-window.innerWidth*count)+'px)');
+    }
+
+    window.addEventListener("resize",handleWindow);
+    
+    useEffect(() => {
+        handleWindow();  
+        const timer = setInterval(nextSlide,4000);
+        return () => {
+            clearInterval(timer);
+        }
+    });
+
+    
+
+    const transitionEnd = () => {
+        if(count === contentsLoop.length-1){
+            setsliderTransition("none");
+            setCount(1);
+            setsliderTransform('translateX('+(-slideWidth*count)+'px)');  
+        }
+        if(count === 0){
+            setsliderTransition("none");
+            setCount(contentsLoop.length-2);
+            setsliderTransform('translateX('+(-slideWidth*count)+'px)');
+        }
+    }
+
+    const prevSlide = () => {
+        setsliderTransition('transform 1s ease-in-out');
+        if(count>0){
+            setCount(count-1);
+        }else {
+            setCount(contentsLoop.length-2);
+        }
+    }
+
+    const nextSlide = () => { 
+        setsliderTransition('transform 1s ease-in-out');
+        if(count<contentsLoop.length-1){
+            setCount(count+1);
+        } else {
+            setCount(1);
+        }
+    }
+
+    // for(let i =1, key =0; i < contentsLoop.length-1;i++,key++){
+    //     buttons.push(<input type="radio" id={i} onChange={() => setCount(i)} name="content" key={key} checked={
+    //         i === count ? true:false
+    //     }/>);
+    // }
+
+    
 
 
     return (
         <div className="slider-container">
-            <Slider images={imagesLoop}/>
-        </div>   
+            <div 
+            className="slider" 
+            onTransitionEnd={transitionEnd}
+            style={{
+                width:sliderWidth,
+                transform:sliderTransform,
+                transition:sliderTransition
+                }}>
+                {contentsLoop && contentsLoop.map( (content,key) => {
+                        return <div className="slide" key={key} style={{width:slideWidth}}>
+                            {content}
+                        </div>
+                    })} 
+            </div>
+            <div className="prev" onTouchStart={prevSlide} onClick={prevSlide}>
+                P
+            </div>
+            <div className="next" onTouchStart={nextSlide} onClick={nextSlide}>
+                N
+            </div>
+            <div className="dots">
+            {contentsLoop && contentsLoop.map((content,key) => {
+                if(content){
+                return <input 
+                type="radio" 
+                id={key} 
+                onChange={() => setCount(key)} 
+                name="content" 
+                key={key} 
+                checked={key === count ? true:false}/>
+                }
+            })}
+            </div>
+        </div>
     )
 }
 
