@@ -4,7 +4,7 @@ import './app.scss'
 const app = () => {
     const contents = [
         <img src={require(`./images/1.jpg`)} />,
-        <h2 style={{textAlign:'center'}}> This is Text contnet :) </h2>,
+        <h2 style={{textAlign:'center'}}> This is Text content :) </h2>,
         <img src={require(`./images/2.jpg`)} />,
         <img src={require(`./images/3.jpg`)} />,
         <h2> This one also text element </h2>,
@@ -19,6 +19,9 @@ const app = () => {
     const [sliderTransform,setsliderTransform] = useState(null);
     const [sliderTransition,setsliderTransition] = useState('transform 1s ease-in-out');
     const [count, setCount] = useState(1);
+    const [firstX,setFirstX] = useState(null);
+    const [lastX,setLastX] = useState(null);
+
     
 
     const handleWindow = () => {
@@ -69,11 +72,28 @@ const app = () => {
             setCount(1);
         }
     }
+
+    const swipe = () => {
+        if(firstX > lastX){
+            nextSlide();
+        }
+        if(lastX > firstX){
+            prevSlide();
+        }
+    }
+
     return (
         <div className="slider-container">
             <div 
             className="slider" 
             onTransitionEnd={transitionEnd}
+            onTouchStart={(e)=>{
+                setFirstX(e.changedTouches[0].screenX);
+            }}
+            onTouchMove={(e)=>{
+                setLastX(e.changedTouches[0].screenX);
+                swipe();
+            }}
             style={{
                 width:sliderWidth,
                 transform:sliderTransform,
